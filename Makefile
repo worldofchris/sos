@@ -1,4 +1,4 @@
-SRC := morse.py
+SRC := morse.py main.py
 PORT := /dev/tty.SLAB_USBtoUART
 FIRMARE := esp8266-20180511-v1.9.4.bin
 

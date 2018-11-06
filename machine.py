@@ -9,3 +9,9 @@ class PWM:
 
     def __init__(self, pin):
         pass
+
+    def init(self, freq, duty):
+        pass
+
+    def deinit(self):
+        pass

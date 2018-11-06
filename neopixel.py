@@ -4,7 +4,7 @@ class NeoPixel:
     def __init__(self, pin, length):
         pass
 
-    def __setitem__(self, key):
+    def __setitem__(self, offset, key):
         pass
 
     def write(self):
