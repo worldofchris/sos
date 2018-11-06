@@ -4,7 +4,7 @@ SOS Tests
 import time
 import unittest
 from unittest.mock import patch, call, Mock
-from morse import text_to_morse, morse_to_signal, DIT, DAH, FlashLight, flash_message, WORD_SPACE, TranslationError
+from morse import text_to_morse, morse_to_signal, DIT, DAH, FlashLight, flash_message, WORD_SPACE, TranslationError, Beeper
 
 class TestSOS(unittest.TestCase):
     """Test ways of sending SOS"""
@@ -78,3 +78,17 @@ class TestSOS(unittest.TestCase):
         fl = Mock()
         with self.assertRaises(TranslationError):
             flash_message(fl, fail_msg)
+
+    @patch('time.sleep', return_value=None)    
+    @patch('machine.PWM')
+    @patch('machine.Pin')
+    def test_beep_message(self, pin, pwm, patched_time_sleep):
+        """Send a message as a buzz on the buzzer"""
+        beeper = Beeper()
+        beeper.beep(DIT)
+        pin.assert_called_with(2)
+        pwm.assert_called_with(beeper.pin)
+        assert beeper.pwm.init.call_count == 1, beeper.pwm.init.call_count
+        assert time.sleep.call_count == 1
+        time.sleep.assert_called_with(DIT)
+        assert beeper.pwm.deinit.call_count == 1, beeper.pwm.deinit.call_count

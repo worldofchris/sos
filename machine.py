@@ -4,3 +4,8 @@ class Pin:
 
     def __init__(self, pin):
         pass
+
+class PWM:
+
+    def __init__(self, pin):
+        pass
