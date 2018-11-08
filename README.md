@@ -4,21 +4,21 @@ Two people need to communicate with each other.  One is at one end of the room, 
 
 Code for P3X talk - A Process fit for people, product and purpose.
 
-Runs on a [nodemcu](http://nodemcu.com/index_en.html)
+Runs on a [NodeMCU](http://nodemcu.com/index_en.html)
 
 ## Dependencies
 
 * Python 3
 
-You'll probably want to do this in a `virtualenv`.
-
-To get started, install the Python dependencies with:
+To get started, install the Python dependencies into a virtual environment with:
 
 	make setup
 
 ## Configuring the beeping flashing thing
 
-First erase the flash on the nodemcu then flash with the [latest MicroPython firmware](https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html#getting-the-firmware):
+You will need to install the [OS-specific USB drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers).
+
+Then then flash the NodeMCU with the [latest MicroPython firmware](https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html#getting-the-firmware):
 
 	make firmware
 	
@@ -26,7 +26,7 @@ First erase the flash on the nodemcu then flash with the [latest MicroPython fir
 
 	make test
 
-## Deploying to a nodemcu
+## Deploying to a NodeMCU
 
 Put the `SSID` and `password` for the WIFI you are using in a file called `wifi.txt` in the format:
 

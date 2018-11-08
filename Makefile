@@ -6,14 +6,14 @@ FIRMWARE_URL := http://micropython.org/resources/firmware/esp8266-20180511-v1.9.
 FIRMWARE := $(WORK_DIR)/firmware.bin
 ACTIVATE := $(WORK_DIR)/venv/bin/activate
 
-.PHONY: deploy erase_flash firmware get_firmware setup test virtualenv
+.PHONY: clobber deploy erase_flash firmware get_firmware setup test virtualenv
 
 test:
 	source $(ACTIVATE) && \
-		nosetests
+		python -m pytest --quiet
 
 virtualenv:
-	python3 -mvenv sos_env
+	python3 -mvenv $(WORK_DIR)/venv
 	pwd && . $(ACTIVATE) && \
 		pip install -r requirements.txt
 
@@ -22,6 +22,9 @@ get_firmware:
 	curl $(FIRMWARE_URL) -o $(FIRMWARE)
 
 setup: virtualenv get_firmware
+
+clobber:
+	$(RM) -r $(WORK_DIR)
 
 deploy: erase_flash firmware
 	source $(ACTIVATE) && \
