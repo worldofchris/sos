@@ -4,7 +4,11 @@ SOS Tests
 import time
 import unittest
 from unittest.mock import patch, call, Mock
-from morse import text_to_morse, morse_to_signal, DIT, DAH, FlashLight, flash_message, CHAR_SPACE, WORD_SPACE, TranslationError, Beeper, Sender
+from morse import text_to_morse, \
+                  morse_to_signal, DIT, DAH, FlashLight, \
+                  flash_message, CHAR_SPACE, WORD_SPACE, \
+                  TranslationError, Beeper, Sender, \
+                  Listner
 
 class TestSOS(unittest.TestCase):
     """Test ways of sending SOS"""
@@ -165,3 +169,37 @@ class TestSOS(unittest.TestCase):
         beeper = Beeper()
         beeper.on(DAH)
         beeper.pwm.init.assert_called_with(freq=beeper.freq[DAH], duty=beeper.duty[DAH])
+
+    # @patch('socket.socket')
+    # @patch('imp.node.select')
+    # def test_tcp_listen(self, select, socket):
+    #     """
+    #     It listens for incoming messages to send
+    #     """
+    #     mock_socket, mock_incoming_socket = self.mock_socket(socket, select, {'msg': 'Old Mr B, Riddle Me Re'})
+    #     self.mocked_network_node.tcp_listen()
+    #     assert mock_socket.accept.call_count == 1
+    #     mock_incoming_socket.send.assert_called_with('ok')
+    #     assert mock_incoming_socket.close.call_count == 1
+    #     assert listener.sender.send.call_count == 1
+
+
+    @patch('socket.socket')
+    def test_connect_to_network(self, socket):
+        """
+        It searches for a network to connect to
+        """
+        WIFI = ('ssid', 'password')
+        network = Mock()
+
+        network.connect = Mock()
+        network.isconnected = Mock()
+        connection_status = [False, False, True]
+        network.isconnected.side_effect = connection_status
+        sender = Mock()
+        listner = Listner(WIFI, 'morse', network, sender)
+        listner.connect()
+        listner.network.active.assert_called_with(True)
+        assert listner.network.connect.call_count == 1
+        assert listner.network.isconnected.call_count == len(connection_status), listner.network.isconnected.call_count
+        assert listner.sender.send.call_count == 1

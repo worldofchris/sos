@@ -1,11 +1,11 @@
-SRC := morse.py main.py
+SRC := morse.py main.py wifi.txt
 PORT := /dev/tty.SLAB_USBtoUART
 FIRMARE := esp8266-20180511-v1.9.4.bin
 
 test: **/*.py
 	nosetests
 
-deploy: $(SRC) wifi.txt
+deploy: $(SRC)
 	for FILE in $(SRC) ; do \
 		ampy --port $(PORT) put $$FILE ; \
 	done
