@@ -8,7 +8,15 @@ Runs on a [nodemcu](http://nodemcu.com/index_en.html)
 
 ## Dependencies
 
+On the board:
+
 [MicroPython](https://micropython.org/)
+
+On your machine:
+
+* Python 3
+
+You'll probably want to do this in a `virtualenv`.
 
 To get started, install the Python dependencies with:
 
