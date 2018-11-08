@@ -6,7 +6,7 @@ FIRMWARE_URL := http://micropython.org/resources/firmware/esp8266-20180511-v1.9.
 FIRMWARE := $(WORK_DIR)/firmware.bin
 ACTIVATE := $(WORK_DIR)/venv/bin/activate
 
-.PHONY: clobber deploy erase_flash firmware get_firmware setup test virtualenv
+.PHONY: clobber deploy erase_flash firmware get_firmware redeploy setup test virtualenv
 
 test:
 	source $(ACTIVATE) && \
@@ -26,11 +26,14 @@ setup: virtualenv get_firmware
 clobber:
 	$(RM) -r $(WORK_DIR)
 
-deploy: erase_flash firmware
+deploy:
 	source $(ACTIVATE) && \
 		for FILE in $(SRC) ; do \
+			echo "Deploying $$FILE..." && \
 			ampy --port $(PORT) put $$FILE ; \
 		done
+
+redeploy: erase_flash firmware deploy
 
 erase_flash:
 	source $(ACTIVATE) && \

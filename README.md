@@ -21,7 +21,7 @@ You will need to install the [OS-specific USB drivers](https://www.silabs.com/pr
 Then then flash the NodeMCU with the [latest MicroPython firmware](https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html#getting-the-firmware):
 
 	make firmware
-	
+
 ## Running the tests
 
 	make test
@@ -40,7 +40,7 @@ Then deploy with:
 
 To send a message to be beeped and flashed by the device, connect to the same wifi network as the device and run:
 
-	python send_message.py Your Message Here!
+	python send_message.py 'Your Message Here!'
 
 There is a single reserved message `exit` which behaves as described in the *Hacking* section below.
 

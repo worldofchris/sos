@@ -6,6 +6,9 @@ __pycache__/
 # Working directory
 work/
 
+# Contains wifi SSID and password - don't store this!
+wifi.txt
+
 # C extensions
 *.so
 
