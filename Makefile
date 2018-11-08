@@ -1,33 +1,38 @@
 SRC := morse.py main.py wifi.txt
 PORT := /dev/tty.SLAB_USBtoUART
-FIRMARE := esp8266-20180511-v1.9.4.bin
 PYTHON := python3
-ACTIVATE := venv/bin/activate
+WORK_DIR := work
+FIRMWARE_URL := http://micropython.org/resources/firmware/esp8266-20180511-v1.9.4.bin
+FIRMWARE := $(WORK_DIR)/firmware.bin
+ACTIVATE := $(WORK_DIR)/venv/bin/activate
 
-.PHONY: virtualenv develop deploy torch erase firmware
+.PHONY: deploy erase_flash firmware get_firmware setup test virtualenv
 
-test: **/*.py
-	nosetests
+test:
+	source $(ACTIVATE) && \
+		nosetests
 
-deploy: torch
+virtualenv:
+	python3 -mvenv sos_env
+	pwd && . $(ACTIVATE) && \
+		pip install -r requirements.txt
+
+get_firmware:
+	test -d deps || mkdir deps
+	curl $(FIRMWARE_URL) -o $(FIRMWARE)
+
+setup: virtualenv get_firmware
+
+deploy: erase_flash firmware
 	source $(ACTIVATE) && \
 		for FILE in $(SRC) ; do \
 			ampy --port $(PORT) put $$FILE ; \
 		done
 
-virtualenv:
-	$(PYTHON) -m venv venv
-
-develop: virtualenv
-	source $(ACTIVATE) && \
-		pip install -r requirements.txt
-
-torch: erase firmware
-
-erase:
+erase_flash:
 	source $(ACTIVATE) && \
 		esptool.py -p $(PORT) erase_flash
 
-firmware:
+firmware: erase_flash
 	source $(ACTIVATE) && \
-		esptool.py --port $(PORT) --baud 460800 write_flash --flash_size=detect 0 $(FIRMARE)
+		esptool.py --port $(PORT) --baud 460800 write_flash --flash_size=detect 0 $(FIRMWARE)

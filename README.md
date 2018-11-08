@@ -24,17 +24,13 @@ You'll probably want to do this in a `virtualenv`.
 
 To get started, install the Python dependencies with:
 
-	make develop
+	make setup
 
 ## Configuring the beeping flashing thing
 
-First erase the flash on the nodemcu:
+First erase the flash on the nodemcu then flash with the [latest MicroPython firmware](https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html#getting-the-firmware):
 
-	make erase
-
-Then flash with the [MicroPython firmware](https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html#getting-the-firmware):
-
-	make flash
+	make firmware
 	
 ## Running the tests
 
