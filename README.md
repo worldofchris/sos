@@ -8,16 +8,6 @@ Runs on a [nodemcu](http://nodemcu.com/index_en.html)
 
 ## Dependencies
 
-On the board:
-
-[MicroPython](https://micropython.org/)
-
-At the time of writing the Micropython Firmware for the Nodemcu board is:
-
-[esp8266-20180511-v1.9.4.bin](http://micropython.org/resources/firmware/esp8266-20180511-v1.9.4.bin)
-
-On your machine:
-
 * Python 3
 
 You'll probably want to do this in a `virtualenv`.
@@ -34,7 +24,7 @@ First erase the flash on the nodemcu:
 
 Then flash with the [MicroPython firmware](https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html#getting-the-firmware):
 
-	make flash
+	make firmware
 	
 ## Running the tests
 
