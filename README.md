@@ -8,16 +8,6 @@ Runs on a [nodemcu](http://nodemcu.com/index_en.html)
 
 ## Dependencies
 
-On the board:
-
-[MicroPython](https://micropython.org/)
-
-At the time of writing the Micropython Firmware for the Nodemcu board is:
-
-[esp8266-20180511-v1.9.4.bin](http://micropython.org/resources/firmware/esp8266-20180511-v1.9.4.bin)
-
-On your machine:
-
 * Python 3
 
 You'll probably want to do this in a `virtualenv`.
