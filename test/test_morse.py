@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch, call, Mock
 from morse import text_to_morse, \
                   morse_to_signal, DIT, DAH, FlashLight, \
-                  flash_message, CHAR_SPACE, WORD_SPACE, \
+                  flash_message, CHAR_PAUSE, WORD_PAUSE, \
                   TranslationError, Beeper, Sender, \
                   Listner
 
@@ -32,8 +32,8 @@ class TestSOS(unittest.TestCase):
     def test_translate_morse_to_signal(self):
         """Translate morse representation to DITs and DAHs"""
         signal = morse_to_signal(self.morse_message)
-        assert signal == [DIT, DIT, DIT, CHAR_SPACE,
-                          DAH, DAH, DAH, CHAR_SPACE,
+        assert signal == [DIT, DIT, DIT, CHAR_PAUSE,
+                          DAH, DAH, DAH, CHAR_PAUSE,
                           DIT, DIT, DIT], signal
 
     @patch('neopixel.NeoPixel')
@@ -51,9 +51,9 @@ class TestSOS(unittest.TestCase):
         """Send a message"""
         fl = Mock()
         calls = [call(DIT), call(DIT), call(DIT),
-                 call(CHAR_SPACE),
+                 call(CHAR_PAUSE),
                  call(DAH), call(DAH), call(DAH),
-                 call(CHAR_SPACE),
+                 call(CHAR_PAUSE),
                  call(DIT), call(DIT), call(DIT)]
         flash_message(fl, self.text_message)
         fl.flash.assert_has_calls(calls) # Think we are not respecting order here
@@ -67,11 +67,11 @@ class TestSOS(unittest.TestCase):
         assert fl.flash.call_count == 140, fl.flash.call_count
 
     @patch('neopixel.NeoPixel')
-    @patch('time.sleep', return_value=None)    
+    @patch('time.sleep', return_value=None)
     def test_flash_space(self, NeoPixel, patched_time_sleep):
         """Flash a message with spaces in it.  Light should not go on"""
         fl = FlashLight()
-        fl.flash(WORD_SPACE)
+        fl.flash(WORD_PAUSE)
         assert fl.neo_pixel.__setitem__.call_count == 0, fl.neo_pixel.__setitem__.call_count
         assert time.sleep.call_count == 1
         time.sleep.assert_called_with(DIT * 7)
@@ -91,7 +91,7 @@ class TestSOS(unittest.TestCase):
         with self.assertRaises(TranslationError):
             flash_message(fl, fail_msg)
 
-    @patch('time.sleep', return_value=None)    
+    @patch('time.sleep', return_value=None)
     @patch('machine.PWM')
     @patch('machine.Pin')
     def test_beep_message(self, pin, pwm, patched_time_sleep):

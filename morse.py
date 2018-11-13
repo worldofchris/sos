@@ -1,19 +1,20 @@
 """
 SOS
 """
-import time
-import neopixel
+import listner
 import machine
-import socket
+import neopixel
 import select
-import ujson
+import socket
 import sys
+import time
+import ujson
 
 class TranslationError(Exception):
     """We could not translate to morse"""
     pass
 
-CODE = {'A': '.-',     'B': '-...',   'C': '-.-.', 
+CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
         'D': '-..',    'E': '.',      'F': '..-.',
         'G': '--.',    'H': '....',   'I': '..',
         'J': '.---',   'K': '-.-',    'L': '.-..',
@@ -37,8 +38,8 @@ CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
 DURATION = .1
 DIT = DURATION
 DAH = DIT * 3
-WORD_SPACE = (DIT * 7) * -1
-CHAR_SPACE = (DIT * 3) * -1
+WORD_PAUSE = (DIT * 7) * -1
+CHAR_PAUSE = (DIT * 3) * -1
 
 def text_to_morse(text):
     """Translate text to morse"""
@@ -58,7 +59,7 @@ def text_to_morse(text):
 
 def morse_to_signal(morse):
     """Translate morse to array of signal durations"""
-    SIGNALS = {'.': DIT, '-': DAH, ' ': CHAR_SPACE, '/': WORD_SPACE}
+    SIGNALS = {'.': DIT, '-': DAH, ' ': CHAR_PAUSE, '/': WORD_PAUSE}
     result = []
     for i in morse:
         result.append(SIGNALS.get(i))
@@ -77,7 +78,7 @@ class FlashLight:
         """
         Flash the light
         """
-        if signal == WORD_SPACE:
+        if signal == WORD_PAUSE:
             time.sleep(DIT * 7)
         else:
             self.neo_pixel[0] = (255, 255, 255)
@@ -111,7 +112,7 @@ class Beeper:
         self.duty = {DIT: 512, DAH: 512}
     def beep(self, signal):
 
-        if signal == WORD_SPACE:
+        if signal == WORD_PAUSE:
             time.sleep(DIT * 7)
         else:
             self.pwm.init(freq=500, duty=512)
@@ -138,7 +139,7 @@ class Sender:
         signal = morse_to_signal(morse_message)
         for i, s in enumerate(signal):
             print(morse_message[i], end='')
-            if s in (WORD_SPACE, CHAR_SPACE):
+            if s in (WORD_PAUSE, CHAR_PAUSE):
                 time.sleep(s * -1)
             else:
                 for o in self.outputs:
@@ -171,7 +172,7 @@ class Listner:
         """
         Connect to the WIFI network
         """
-        DELAY = 2000    
+        DELAY = 2000
         print("connect")
         j = 0
         while not self.network.isconnected():
@@ -183,7 +184,7 @@ class Listner:
 
         self.connection_status = True
         self.sender.send("R")
-        
+
 
     def connected(self):
         """Are we connected to the network?"""
