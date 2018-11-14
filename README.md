@@ -6,6 +6,8 @@ Code for P3X talk - A Process fit for people, product and purpose.
 
 Runs on a [NodeMCU](http://nodemcu.com/index_en.html)
 
+[![Build Status](https://travis-ci.org/worldofchris/sos.svg?branch=master)](https://travis-ci.org/worldofchris)
+
 ## Dependencies
 
 * Python 3
