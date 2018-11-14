@@ -5,4 +5,5 @@ before_script:
   # Escape virtualenv, https://github.com/travis-ci/travis-ci/issues/8589.
   # Thanks @rduplain
   - deactivate
+  - ls /opt/python
 script: make test
