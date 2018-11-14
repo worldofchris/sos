@@ -4,5 +4,5 @@ python:
 before_script:
 # Escape virtualenv, https://github.com/travis-ci/travis-ci/issues/8589.
   - deactivate
-  - export PATH=/opt/python/3.4/bin:$PATH
+  - export PATH=/opt/python/3.6.5/bin:$PATH
 script: make test
