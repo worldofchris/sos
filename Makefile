@@ -8,7 +8,7 @@ ACTIVATE := $(WORK_DIR)/venv/bin/activate
 
 .PHONY: clobber deploy erase_flash firmware get_firmware redeploy setup test virtualenv
 
-test:
+test: virtualenv
 	source $(ACTIVATE) && \
 		python -m pytest --quiet
 
