@@ -14,26 +14,26 @@ class TranslationError(Exception):
     """We could not translate to morse"""
     pass
 
-CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
-        'D': '-..',    'E': '.',      'F': '..-.',
-        'G': '--.',    'H': '....',   'I': '..',
-        'J': '.---',   'K': '-.-',    'L': '.-..',
-        'M': '--',     'N': '-.',     'O': '---',
-        'P': '.--.',   'Q': '--.-',   'R': '.-.',
-        'S': '...',    'T': '-',      'U': '..-',
-        'V': '...-',   'W': '.--',    'X': '-..-',
-        'Y': '-.--',   'Z': '--..',
+DICTIONARY =    {'A': '.-',     'B': '-...',   'C': '-.-.',
+                'D': '-..',    'E': '.',      'F': '..-.',
+                'G': '--.',    'H': '....',   'I': '..',
+                'J': '.---',   'K': '-.-',    'L': '.-..',
+                'M': '--',     'N': '-.',     'O': '---',
+                'P': '.--.',   'Q': '--.-',   'R': '.-.',
+                'S': '...',    'T': '-',      'U': '..-',
+                'V': '...-',   'W': '.--',    'X': '-..-',
+                'Y': '-.--',   'Z': '--..',
 
-        '0': '-----',  '1': '.----',  '2': '..---',
-        '3': '...--',  '4': '....-',  '5': '.....',
-        '6': '-....',  '7': '--...',  '8': '---..',
-        '9': '----.',
+                '0': '-----',  '1': '.----',  '2': '..---',
+                '3': '...--',  '4': '....-',  '5': '.....',
+                '6': '-....',  '7': '--...',  '8': '---..',
+                '9': '----.',
 
-        ' ': '/',
-        '.': '.−.−.−',
-        ',': '--..--',
-        "'": '.−−−−.',
-        }
+                ' ': '/',
+                '.': '.−.−.−',
+                ',': '--..--',
+                "'": '.−−−−.',
+                }
 
 DURATION = .1
 DIT = DURATION
@@ -48,9 +48,9 @@ def text_to_morse(text):
         for i in text:
             if i == ' ':
                 morse = morse[:-1]
-                morse += CODE.get(i.upper())
+                morse += DICTIONARY.get(i.upper())
             else:
-                morse += CODE.get(i.upper())
+                morse += DICTIONARY.get(i.upper())
                 morse += ' '
         morse = morse[:-1]
     except TypeError as e:
@@ -60,10 +60,15 @@ def text_to_morse(text):
 def morse_to_signal(morse):
     """Translate morse to array of signal durations"""
     SIGNALS = {'.': DIT, '-': DAH, ' ': CHAR_PAUSE, '/': WORD_PAUSE}
-    result = []
+    signals = []
     for i in morse:
-        result.append(SIGNALS.get(i))
-    return result
+        signals.append(SIGNALS.get(i))
+    return signals
+
+def text_to_signal(text_message):
+    morse_message = text_to_morse(text_message)
+    signal_message = morse_to_signal(morse_message)
+    return signal_message
 
 class FlashLight:
     """
@@ -96,8 +101,7 @@ class FlashLight:
         self.neo_pixel.write()
 
 def flash_message(flashlight, text_message):
-    morse_message = text_to_morse(text_message)
-    signal_message = morse_to_signal(morse_message)
+    signal_message = text_to_signal(text_message)
     for signal in signal_message:
         flashlight.flash(signal)
 
