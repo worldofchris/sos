@@ -7,8 +7,8 @@ from unittest.mock import patch, call, Mock
 from morse import text_to_morse, \
                   morse_to_signal, DIT, DAH, FlashLight, \
                   flash_message, CHAR_PAUSE, WORD_PAUSE, \
-                  TranslationError, Beeper, Sender, \
-                  Listner
+                  TranslationError, Beeper, Sender
+from listner import Listner
 
 class TestSOS(unittest.TestCase):
     """Test ways of sending SOS"""
