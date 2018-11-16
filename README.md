@@ -42,7 +42,9 @@ Then deploy with:
 
 To send a message to be beeped and flashed by the device, connect to the same wifi network as the device and run:
 
-	python send_message.py 'Your Message Here!'
+	python send_message.py 192.168.1.100 'Your Message Here!'
+
+Where `192.168.1.100` is the IP address of your device.
 
 There is a single reserved message `exit` which behaves as described in the *Hacking* section below.
 
