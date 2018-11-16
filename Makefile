@@ -1,4 +1,4 @@
-SRC := morse.py main.py wifi.txt
+SRC := morse main.py wifi.txt
 PORT := /dev/tty.SLAB_USBtoUART
 PYTHON := python3
 WORK_DIR := work

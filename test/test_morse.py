@@ -4,11 +4,19 @@ SOS Tests
 import time
 import unittest
 from unittest.mock import patch, call, Mock
-from morse import text_to_morse, \
-                  morse_to_signal, DIT, DAH, FlashLight, \
-                  flash_message, CHAR_PAUSE, WORD_PAUSE, \
-                  TranslationError, Beeper, Sender, \
-                  Listner
+
+from morse.listener import Listener
+from morse.sender import Sender
+from morse.beeper import Beeper
+from morse.flashlight import FlashLight, flash_message
+from morse.translation import morse_to_signal
+from morse.translation import text_to_morse
+from morse.translation import TranslationError
+from morse.translation import DIT, DAH
+
+from morse.translation import CHAR_PAUSE, WORD_PAUSE
+from morse.translation import text_to_morse
+from morse.translation import morse_to_signal
 
 class TestSOS(unittest.TestCase):
     """Test ways of sending SOS"""
@@ -197,9 +205,9 @@ class TestSOS(unittest.TestCase):
         connection_status = [False, False, True]
         network.isconnected.side_effect = connection_status
         sender = Mock()
-        listner = Listner(WIFI, 'morse', network, sender)
-        listner.connect()
-        listner.network.active.assert_called_with(True)
-        assert listner.network.connect.call_count == 1
-        assert listner.network.isconnected.call_count == len(connection_status), listner.network.isconnected.call_count
-        assert listner.sender.send.call_count == 1
+        listener = Listener(WIFI, 'morse', network, sender)
+        listener.connect()
+        listener.network.active.assert_called_with(True)
+        assert listener.network.connect.call_count == 1
+        assert listener.network.isconnected.call_count == len(connection_status), listener.network.isconnected.call_count
+        assert listener.sender.send.call_count == 1
