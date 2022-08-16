@@ -2,7 +2,7 @@
 
 Two people need to communicate with each other.  One is at one end of the room, the other at the other.  They communicate using Morse Code
 
-Code for P3X talk - A Process fit for people, product and purpose.
+Code for P3X talk - [A Process fit for people, product and purpose](https://skillsmatter.com/skillscasts/13043-track-lead-a-process-fit-for-people-product-and-purpose).
 
 Runs on a [NodeMCU](http://nodemcu.com/index_en.html)
 
